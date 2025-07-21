@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+import aliNickMobile from "./assets/ali-nick-mobile.JPG"
+import aliNickDesktop from "./assets/ali-nick-desktop.JPG"
+
 const WeddingWeekendApp = () => {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -78,11 +81,6 @@ const WeddingWeekendApp = () => {
     localStorage.setItem('weddingData', JSON.stringify(siteData));
   }, [siteData]);
 
-  // Save dark mode preference
-  useEffect(() => {
-    localStorage.setItem('darkMode', darkMode ? 'enabled' : 'disabled');
-  }, [darkMode]);
-
   const addUpdate = () => {
     if (newUpdate.trim()) {
       const timestamp = new Date().toLocaleString();
@@ -143,6 +141,8 @@ const WeddingWeekendApp = () => {
     return siteData.events[field] || defaultValue;
   };
 
+  const imageClasses = "w-screen h-screen object-cover dark:opacity-50"
+
   return (
     <div className={`min-h-screen font-serif relative transition-colors duration-300 ${
       darkMode 
@@ -155,8 +155,11 @@ const WeddingWeekendApp = () => {
           ? 'bg-slate-900' 
           : 'bg-gradient-to-br from-orange-100 to-gray-100'
       }`}>
+        <img src={aliNickMobile} className={`${imageClasses} md:hidden`} />
+        <img src={aliNickDesktop} className={`${imageClasses} hidden md:block`} />
+
         {/* Watercolor effects */}
-        <div className={`absolute top-0 left-0 w-48 h-48 opacity-40 transition-colors duration-300`}>
+        {/* <div className={`absolute top-0 left-0 w-48 h-48 opacity-40 transition-colors duration-300`}>
           <div className={`w-full h-full rounded-full ${
             darkMode 
               ? 'bg-gradient-radial from-blue-600 via-blue-500 to-transparent' 
@@ -169,10 +172,10 @@ const WeddingWeekendApp = () => {
               ? 'bg-gradient-radial from-blue-400 via-blue-300 to-transparent' 
               : 'bg-gradient-radial from-gray-400 via-gray-300 to-transparent'
           }`}></div>
-        </div>
+        </div> */}
         
         {/* Dots pattern */}
-        <div className="absolute top-12 right-5 opacity-60">
+        {/* <div className="absolute top-12 right-5 opacity-60">
           {[...Array(8)].map((_, i) => (
             <div
               key={i}
@@ -187,10 +190,10 @@ const WeddingWeekendApp = () => {
               }}
             />
           ))}
-        </div>
+        </div> */}
         
         {/* Wavy line */}
-        <div className="absolute bottom-12 left-5 w-32 h-6 opacity-80">
+        {/* <div className="absolute bottom-12 left-5 w-32 h-6 opacity-80">
           <svg viewBox="0 0 100 20" className="w-full h-full">
             <path
               d="M0,10 Q25,0 50,10 T100,10"
@@ -202,7 +205,7 @@ const WeddingWeekendApp = () => {
               }`}
             />
           </svg>
-        </div>
+        </div> */}
       </div>
 
       <div className="relative z-10 max-w-lg mx-auto px-5 py-8">
@@ -232,17 +235,18 @@ const WeddingWeekendApp = () => {
 
         {/* Main Header */}
         <div className="text-center mb-12">
-          <h1 className={`text-4xl font-normal leading-tight mb-3 transition-colors duration-300 ${
+          <h1 className={`text-[2.125rem] font-normal leading-tight mb-3 transition-colors duration-300 ${
             darkMode ? 'text-blue-300' : 'text-blue-800'
           }`}>
             Ali & Nick's<br />Marriage Celebration
           </h1>
-          <h2 className={`text-3xl italic font-normal transition-colors duration-300 ${
-            darkMode ? 'text-blue-400' : 'text-blue-600'
-          }`}>
-            Weekend Plan
-          </h2>
         </div>
+
+        <h2 className={`mb-8 block w-full text-center text-3xl italic font-normal transition-colors duration-300 ${
+          darkMode ? 'text-blue-400' : 'text-blue-600'
+        }`}>
+          <span className="px-4 py-1 bg-white/60 dark:bg-slate-800/90 rounded-md">Weekend Plan</span>
+        </h2>
 
         {/* Updates Section */}
         {siteData.updates.length > 0 && (
@@ -309,6 +313,7 @@ const WeddingWeekendApp = () => {
               }`}>
                 <a
                   href="https://maps.google.com/?q=El+Rey+Arlington+VA"
+                  target="_blank"
                   className={`hover:underline transition-colors duration-300 ${
                     darkMode 
                       ? 'text-blue-400 hover:text-blue-300' 
@@ -351,6 +356,7 @@ const WeddingWeekendApp = () => {
               <div className="text-gray-600 dark:text-gray-400 italic mb-1">
                 <a
                   href="https://maps.google.com/?q=The+Wharf+Washington+DC"
+                  target="_blank"
                   className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                 >
                   {getEventData('sat-event1-venue', 'The Wharf')}
@@ -372,6 +378,7 @@ const WeddingWeekendApp = () => {
               <div className="text-gray-600 dark:text-gray-400 italic mb-1">
                 <a
                   href="https://maps.google.com/?q=Barcelona+Wine+Bar+Cathedral+Heights+Washington+DC"
+                  target="_blank"
                   className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                 >
                   {getEventData('sat-event2-venue', 'Barcelona Wine Bar (Cathedral Heights)')}
@@ -408,6 +415,7 @@ const WeddingWeekendApp = () => {
               <div className="text-gray-600 dark:text-gray-400 italic mb-1">
                 <a
                   href="https://maps.google.com/?q=The+Crown+Crow+Washington+DC"
+                  target="_blank"
                   className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                 >
                   {getEventData('sat-event3-venue', 'The Crown & Crow')}
@@ -438,6 +446,7 @@ const WeddingWeekendApp = () => {
             <div className="text-gray-600 dark:text-gray-400 italic mb-1">
               <a
                 href="https://maps.google.com/?q=Medium+Rare+Arlington+VA"
+                target="_blank"
                 className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
               >
                 {getEventData('sun-event1-venue', 'Medium Rare')}
