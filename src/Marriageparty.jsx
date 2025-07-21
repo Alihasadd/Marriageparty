@@ -7,7 +7,9 @@ const WeddingWeekendApp = () => {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   const [darkMode, setDarkMode] = useState(prefersDark);
-  const [showAdmin, setShowAdmin] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordFormVisible, setPasswordFormVisible] = useState(false);
+  const [adminFormVisible, setAdminFormVisible] = useState(false);
   const [siteData, setSiteData] = useState({
     title: "Ali & Nick's Marriage Celebration",
     subtitle: "Weekend Plan",
@@ -141,6 +143,14 @@ const WeddingWeekendApp = () => {
     return siteData.events[field] || defaultValue;
   };
 
+  const handlePasswordFormSubmit = (e) => {
+    e.preventDefault()
+    if (password === "santikins") {
+      setPasswordFormVisible(false)
+      setAdminFormVisible(true)
+    }
+  }
+
   const imageClasses = "w-screen h-screen object-cover dark:opacity-50"
 
   return (
@@ -210,7 +220,7 @@ const WeddingWeekendApp = () => {
 
       <div className="relative z-10 max-w-lg mx-auto px-5 py-8">
         {/* Header with controls */}
-        <div className="flex justify-between items-start mb-8">
+        <div className="flex justify-end items-start mb-8">
           <button
             onClick={() => setDarkMode(!darkMode)}
             className={`backdrop-blur-sm px-3 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105 ${
@@ -220,16 +230,6 @@ const WeddingWeekendApp = () => {
             }`}
           >
             {darkMode ? '☀️' : '🌙'}
-          </button>
-          <button
-            onClick={() => setShowAdmin(!showAdmin)}
-            className={`backdrop-blur-sm px-3 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105 ${
-              darkMode 
-                ? 'bg-white/10 hover:bg-white/20 text-gray-200' 
-                : 'bg-black/10 hover:bg-black/20 text-gray-600'
-            }`}
-          >
-            ✏️ Edit
           </button>
         </div>
 
@@ -476,7 +476,51 @@ const WeddingWeekendApp = () => {
           </div>
         </div>
 
-        {showAdmin && (
+        <div className="mb-8 flex justify-center">
+          <button
+            onClick={() => setPasswordFormVisible(!passwordFormVisible)}
+            className={`backdrop-blur-sm px-3 py-2 rounded-full text-sm transition-all duration-300 hover:scale-105 ${
+              darkMode 
+                ? 'bg-white/10 hover:bg-white/20 text-gray-200' 
+                : 'bg-black/10 hover:bg-black/20 text-gray-600'
+            }`}
+          >
+            ✏️ Edit
+          </button>
+        </div>
+
+        {passwordFormVisible && (
+          <div className={`rounded-2xl p-6 shadow-xl border transition-colors duration-300 ${
+            darkMode 
+              ? 'bg-slate-800/95 border-gray-700' 
+              : 'bg-white/98 border-gray-200'
+          }`}>
+            <form onSubmit={handlePasswordFormSubmit}>
+              <div>
+                <h3 className={`font-semibold mb-3 transition-colors duration-300 ${
+                  darkMode ? 'text-blue-300' : 'text-blue-800'
+                }`}>Enter Password</h3>
+                <input
+                  type="text"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  autoFocus
+                />
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    className="mt-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white px-4 py-2 rounded-full text-sm hover:from-blue-700 hover:to-blue-900 transition-all duration-300 hover:-translate-y-0.5 shadow-md"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {adminFormVisible && (
           <div className={`rounded-2xl p-6 shadow-xl border transition-colors duration-300 ${
             darkMode 
               ? 'bg-slate-800/95 border-gray-700' 
@@ -584,7 +628,7 @@ const WeddingWeekendApp = () => {
             {/* Admin Controls */}
             <div className="text-center space-x-3">
               <button
-                onClick={() => setShowAdmin(false)}
+                onClick={() => setAdminFormVisible(false)}
                 className="bg-gray-500 text-white px-4 py-2 rounded-full text-sm hover:bg-gray-600 transition-colors"
               >
                 Close Admin
