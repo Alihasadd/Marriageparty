@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const WeddingWeekendApp = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  const [darkMode, setDarkMode] = useState(prefersDark);
   const [showAdmin, setShowAdmin] = useState(false);
   const [siteData, setSiteData] = useState({
     title: "Ali & Nick's Marriage Celebration",
@@ -15,6 +17,14 @@ const WeddingWeekendApp = () => {
     events: {}
   });
 
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+  }, [darkMode])
+
   // Form states
   const [newUpdate, setNewUpdate] = useState('');
   const [menuName, setMenuName] = useState('');
@@ -24,44 +34,44 @@ const WeddingWeekendApp = () => {
   const [eventValue, setEventValue] = useState('');
 
   // Load data on component mount
-  useEffect(() => {
-    const savedData = localStorage.getItem('weddingData');
-    const savedDarkMode = localStorage.getItem('darkMode');
+  // useEffect(() => {
+  //   const savedData = localStorage.getItem('weddingData');
+  //   const savedDarkMode = localStorage.getItem('darkMode');
     
-    if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      // Ensure eventMenus structure exists
-      if (!parsedData.eventMenus) {
-        parsedData.eventMenus = {
-          'sat-event2': [{ name: "Dinner Menu", url: "#" }],
-          'sun-event1': [{ name: "Brunch Menu", url: "#" }]
-        };
-      }
-      setSiteData(parsedData);
-    } else {
-      // Initialize with sample data
-      const initialData = {
-        title: "Ali & Nick's Marriage Celebration",
-        subtitle: "Weekend Plan",
-        updates: [{
-          text: "Welcome to our wedding weekend! We're so excited to celebrate with you all. 🎉",
-          timestamp: new Date().toLocaleString()
-        }],
-        menus: [],
-        eventMenus: {
-          'sat-event2': [{ name: "Dinner Menu", url: "#" }],
-          'sun-event1': [{ name: "Brunch Menu", url: "#" }]
-        },
-        events: {}
-      };
-      setSiteData(initialData);
-      localStorage.setItem('weddingData', JSON.stringify(initialData));
-    }
+  //   if (savedData) {
+  //     const parsedData = JSON.parse(savedData);
+  //     // Ensure eventMenus structure exists
+  //     if (!parsedData.eventMenus) {
+  //       parsedData.eventMenus = {
+  //         'sat-event2': [{ name: "Dinner Menu", url: "#" }],
+  //         'sun-event1': [{ name: "Brunch Menu", url: "#" }]
+  //       };
+  //     }
+  //     setSiteData(parsedData);
+  //   } else {
+  //     // Initialize with sample data
+  //     const initialData = {
+  //       title: "Ali & Nick's Marriage Celebration",
+  //       subtitle: "Weekend Plan",
+  //       updates: [{
+  //         text: "Welcome to our wedding weekend! We're so excited to celebrate with you all. 🎉",
+  //         timestamp: new Date().toLocaleString()
+  //       }],
+  //       menus: [],
+  //       eventMenus: {
+  //         'sat-event2': [{ name: "Dinner Menu", url: "#" }],
+  //         'sun-event1': [{ name: "Brunch Menu", url: "#" }]
+  //       },
+  //       events: {}
+  //     };
+  //     setSiteData(initialData);
+  //     localStorage.setItem('weddingData', JSON.stringify(initialData));
+  //   }
     
-    if (savedDarkMode === 'enabled') {
-      setDarkMode(true);
-    }
-  }, []);
+  //   if (savedDarkMode === 'enabled') {
+  //     setDarkMode(true);
+  //   }
+  // }, []);
 
   // Save data whenever siteData changes
   useEffect(() => {
@@ -309,7 +319,7 @@ const WeddingWeekendApp = () => {
                 </a>
               </div>
               <div className={`text-sm mb-1 transition-colors duration-300 ${
-                darkMode ? 'text-gray-500' : 'text-gray-500'
+                darkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 {getEventData('fri-event1-location', 'Arlington, VA')}
               </div>
@@ -346,7 +356,7 @@ const WeddingWeekendApp = () => {
                   {getEventData('sat-event1-venue', 'The Wharf')}
                 </a>
               </div>
-              <div className="text-gray-500 dark:text-gray-500 text-sm mb-1">
+              <div className="text-gray-500 dark:text-gray-300 text-sm mb-1">
                 {getEventData('sat-event1-location', 'Washington, DC')}
               </div>
               <div className="text-gray-700 dark:text-gray-300 text-sm font-medium">
@@ -367,7 +377,7 @@ const WeddingWeekendApp = () => {
                   {getEventData('sat-event2-venue', 'Barcelona Wine Bar (Cathedral Heights)')}
                 </a>
               </div>
-              <div className="text-gray-500 dark:text-gray-500 text-sm mb-1">
+              <div className="text-gray-700 dark:text-gray-300 text-sm mb-1">
                 {getEventData('sat-event2-location', 'Washington, DC')}
               </div>
               <div className="text-gray-700 dark:text-gray-300 text-sm font-medium mb-2">
@@ -403,7 +413,7 @@ const WeddingWeekendApp = () => {
                   {getEventData('sat-event3-venue', 'The Crown & Crow')}
                 </a>
               </div>
-              <div className="text-gray-500 dark:text-gray-500 text-sm mb-1">
+              <div className="text-gray-700 dark:text-gray-300 text-sm mb-1">
                 {getEventData('sat-event3-location', 'Washington, DC')}
               </div>
               <div className="text-gray-700 dark:text-gray-300 text-sm font-medium">
@@ -433,7 +443,7 @@ const WeddingWeekendApp = () => {
                 {getEventData('sun-event1-venue', 'Medium Rare')}
               </a>
             </div>
-            <div className="text-gray-500 dark:text-gray-500 text-sm mb-1">
+            <div className="text-gray-700 dark:text-gray-300 text-sm mb-1">
               {getEventData('sun-event1-location', 'Arlington, VA')}
             </div>
             <div className="text-gray-700 dark:text-gray-300 text-sm font-medium mb-2">
