@@ -355,7 +355,7 @@ const WeddingWeekendApp = () => {
               </h4>
               <div className="text-gray-600 dark:text-gray-400 italic mb-1">
                 <a
-                  href="https://maps.google.com/?q=The+Wharf+Washington+DC"
+                  href="https://maps.app.goo.gl/VEvU7iqn9z4WaRar5"
                   target="_blank"
                   className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline"
                 >
